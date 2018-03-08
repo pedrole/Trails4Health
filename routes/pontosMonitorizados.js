@@ -1,39 +1,39 @@
 /* var express = require('express');
-var pontoMonitorizado = require('../controllers/pontoMonitorizadoController');
+var channel = require('../controllers/pontoMonitorizadoController');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-router.post(pontoMonitorizado.create_ponto_monitorizado);
+router.post(channel.create_ponto_monitorizado);
 
 module.exports = router; */
 
 var express = require('express');
 var router = express.Router();
-var PontoMonitorizado =require('../models/PontoMonitorizadoModel');
+var Canal =require('../models/CanalModel');
 
 /* GET users listing. */
 router.get("/", function(req, res){
     // Get all campgrounds from DB
-  PontoMonitorizado.find({}).exec(function(err, allPontosMonitorizados) {
+  Canal.find({}).exec(function(err, allChannels) {
        if(err){
           res.json(err);
        } else {
-          res.json(allPontosMonitorizados);
+          res.json(allChannels);
        }
     });
 });
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    PontoMonitorizado.findById(req.params.id).populate('condicoesAtmosfericas').exec(function (err, foundPontoMonitorizado) {
+    Canal.findById(req.params.id).populate('feeds').exec(function (err, foundChannel) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundPontoMonitorizado)
+            console.log(foundChannel)
             //render show template with that campground
-            res.json(foundPontoMonitorizado);
+            res.json(foundChannel);
         }
     });
 });
@@ -43,15 +43,15 @@ router.post("/", function(req, res){
     // get data from form and add to campgrounds array
     var loc = req.body.loc;
     var trilho = req.body.trilho;
-    var newPontoMonitorizado = {loc: loc, trilho: trilho}
+    var newChannel = {loc: loc, trilho: trilho}
     // Create a new campground and save to DB
-    PontoMonitorizado.create(newPontoMonitorizado, function(err, pontoMonitorizado){
+    Canal.create(newChannel, function(err, channel){
         if(err){
             console.log(err);
         } else {
             //redirect back to campgrounds page
-            console.log(pontoMonitorizado);
-            res.json(pontoMonitorizado);
+            console.log(channel);
+            res.json(channel);
         }
     });
 });

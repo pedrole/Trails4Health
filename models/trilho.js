@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
- PontoIntermedio = require('./pontoIntermedioModel');
+ 
 
 var trilhoSchema = new mongoose.Schema({
     descricao: String,

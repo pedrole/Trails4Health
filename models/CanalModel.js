@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var pontoMonitorizadoSchema = new mongoose.Schema({
+var canalSchema = new mongoose.Schema({
         loc: {
                 type: [Number],
                 index: '2d'
@@ -13,15 +13,15 @@ var pontoMonitorizadoSchema = new mongoose.Schema({
         },
         hardware_id: Number,
 
-        condicoesAtmosfericas: [
+        dados: [
                 {
                         type: mongoose.Schema.Types.ObjectId,
-                        ref: "CondicaoAtmosferica"
+                        ref: "Feed"
                 }
         ]
 
 
 });
 
-module.exports = mongoose.model("PontosMonitorizados", pontoMonitorizadoSchema);
+module.exports = mongoose.model("Canal", canalSchema);
 

@@ -4,11 +4,11 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser'),PontoIntermedio = require('./models/pontoIntermedioModel'),  Trilho = require('./models/trilho'), PontosMonitorizados = require('./models/PontoMonitorizadoModel');
-var CondicaoAtmosferica = require('./models/CondicaoAtmosfericaModel');
+var bodyParser = require('body-parser'),  Trilho = require('./models/trilho'), Canal = require('./models/CanalModel');
+var Feed = require('./models/FeedModel');
 
 var index = require('./routes/index');
-var users = require('./routes/users'), trilhos = require('./routes/trilhos'), pontosMonitorizados = require('./routes/pontosMonitorizados')
+var users = require('./routes/users'), trilhos = require('./routes/trilhos'), canais = require('./routes/canais')
 , pontosIntermedios = require('./routes/pontosIntermedios'), condicoesAtmosfericas = require('./routes/condicoesAtmosfericas');;
 
 var app = express();
