@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Trilho = require('../models/trilho'), PontoIntermedio = require('../models/pontoIntermedioModel');
+var Trilho = require('../models/trilho');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 /* GET users listing. */

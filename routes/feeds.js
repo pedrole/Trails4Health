@@ -13,19 +13,21 @@ router.get("/", function(req, res){
        }
     });
 });
-router.post("/", function(req, res){
+router.post("/", function(req, res,next){
     // get data from form and add to campgrounds array
    
     var newFeed = {temperatura: req.body.temeperatura, humidade: req.body.humidade,
     canal: req.body.canal};
-    Feed.findById(newFeed.canal, function(err, canal){
+    Canal.findById(newFeed.canal, function(err, canal){
         if(err){
             console.log(err);
-            next();
+            //res.status(500).send("");
+            next(err);
         } else {
          Feed.create(newFeed, function(err, feed){
             if(err){
                 console.log(err); 
+               res.send(err);
             } else {
                
                 feed.save();

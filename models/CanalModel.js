@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 
 var canalSchema = new mongoose.Schema({
-        loc: {
-                type: [Number],
-                index: '2d'
-        },
+        latitude: {
+                type: Number,
+              
+        }, 
+        longitude: {type: Number},
         trilho: {
 
                 type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +14,7 @@ var canalSchema = new mongoose.Schema({
         },
         hardware_id: Number,
 
-        dados: [
+        feeds: [
                 {
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "Feed"

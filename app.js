@@ -9,7 +9,7 @@ var Feed = require('./models/FeedModel');
 
 var index = require('./routes/index');
 var users = require('./routes/users'), trilhos = require('./routes/trilhos'), canais = require('./routes/canais')
-, pontosIntermedios = require('./routes/pontosIntermedios'), condicoesAtmosfericas = require('./routes/condicoesAtmosfericas');;
+,  feeds = require('./routes/feeds');;
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -30,9 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/users', users);
-app.use('/pontosMonitorizados', pontosMonitorizados);
-app.use('/condicoesAtmosfericas', condicoesAtmosfericas);
-app.use('/pontosIntermedios', pontosIntermedios);
+app.use('/canais', canais);
+app.use('/feeds', feeds);
 app.use('/trilhos',trilhos);
 
 //var routes = require('./routes/pontosMonitorizados'); //importing route

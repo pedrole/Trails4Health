@@ -27,7 +27,7 @@ router.get("/", function(req, res){
 });
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Canal.findById(req.params.id).populate('feeds').exec(function (err, foundChannel) {
+    Canal.findById(req.params.id).populate({path:'feeds',options:{limit:2}}).exec(function (err, foundChannel) {
         if (err) {
             console.log(err);
         } else {
@@ -41,9 +41,10 @@ router.get("/:id", function (req, res) {
 
 router.post("/", function(req, res){
     // get data from form and add to campgrounds array
-    var loc = req.body.loc;
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
     var trilho = req.body.trilho;
-    var newChannel = {loc: loc, trilho: trilho}
+    var newChannel = {latitude: latitude,longitude:longitude, trilho: trilho}
     // Create a new campground and save to DB
     Canal.create(newChannel, function(err, channel){
         if(err){
