@@ -12,7 +12,13 @@ var trilhoSchema = new mongoose.Schema({
         index: '2d'
     },
     coordenadas: String,
-        featured_media: String
+        featured_media: String,
+        canais: [
+            {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Canal"
+            }
+    ]
 });
 
 module.exports = mongoose.model("Trilho", trilhoSchema);

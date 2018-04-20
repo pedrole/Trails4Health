@@ -69,10 +69,11 @@ router.get("/", function (req, res) {
 
     //    }
     // });
+  
 
 
     // Get all campgrounds from DB
-        Trilho.find({}, function(err, allTrilhos){
+        Trilho.find({}).populate({ path: 'canais' }).exec( function(err, allTrilhos){
            if(err){
                console.log(err);
            } else {
@@ -83,7 +84,8 @@ router.get("/", function (req, res) {
 // SHOW - shows more info about one campground
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Trilho.findById(req.params.id).exec(function (err, foundTrilho) {
+    //populate({ path: 'feeds', options: { limit: 2 } })
+    Trilho.findById(req.params.id). populate({ path: 'canais',select: '-feeds' }).exec(function (err, foundTrilho) {
         if (err) {
             console.log(err);
         } else {
