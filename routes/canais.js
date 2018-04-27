@@ -27,7 +27,8 @@ router.get("/", function (req, res) {
 });
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Canal.findById(req.params.id).populate({ path: 'feeds', options: { limit: 2 } }).exec(function (err, foundChannel) {
+    Canal.findById(req.params.id).populate({ path: 'feeds', options: { limit: 2, sort: { 'created_at': -1 } 
+    } }).exec(function (err, foundChannel) {
         if (err) {
             console.log(err);
         } else {
