@@ -13,7 +13,8 @@ var users = require('./routes/users'), trilhos = require('./routes/trilhos'), ca
 
 var app = express();
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Trails4Health'); 
+var url =  process.env.DATABASEURL || "mongodb://localhost/Trails4Health"
+mongoose.connect(url); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

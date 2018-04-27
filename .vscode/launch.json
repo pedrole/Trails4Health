@@ -8,12 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "nodemon",
+            "protocol": "legacy",
             "runtimeExecutable": "nodemon",
             "program": "${workspaceFolder}\\bin\\www",
             "restart": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         },
+        
         {
             "type": "node",
             "request": "attach",
@@ -21,7 +23,6 @@
             "protocol": "inspector",
             "port": 5000,
         },
-       
         {
             "type": "node",
             "request": "launch",
