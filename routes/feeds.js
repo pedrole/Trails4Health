@@ -16,7 +16,7 @@ router.get("/", function(req, res){
 router.post("/", function(req, res,next){
     // get data from form and add to campgrounds array
    
-    var newFeed = {temperatura: req.body.temeperatura, humidade: req.body.humidade,
+    var newFeed = {temperatura: req.body.temperatura, humidade: req.body.humidade,
     canal: req.body.canal};
     Canal.findById(newFeed.canal, function(err, canal){
         if(err){
