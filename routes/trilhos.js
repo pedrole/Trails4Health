@@ -5,28 +5,28 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 /* GET users listing. */
 router.get("/", function (req, res) {
-  /*   console.log('hello world');
-    Trilho.find({}).then((trilhos) => {
-        console.log(trilhos);
-        PontoIntermedio.find({ id_trilho: '5a4f9eb81c45d1401080b439' }).
-            then((coordenadas) => {
-                console.log(coordenadas);
-                trilhos[0].coordenadas = coordenadas;
-               
-
-            });
-        res.json(trilhos);
-        // for(var trilho of trilhos){
-        //      trilho.coordenadas = await PontoIntermedio.find({'id_trilho': });
-
-
-        // }
-        //   return Promise.all(trilho.coordenadas);   
-    }).then(function (listOfJobs) {
-        res.send(listOfJobs);
-    }).catch(function (error) {
-        res.status(500).send('one of the queries failed', error);
-    }); */
+    /*   console.log('hello world');
+      Trilho.find({}).then((trilhos) => {
+          console.log(trilhos);
+          PontoIntermedio.find({ id_trilho: '5a4f9eb81c45d1401080b439' }).
+              then((coordenadas) => {
+                  console.log(coordenadas);
+                  trilhos[0].coordenadas = coordenadas;
+                 
+  
+              });
+          res.json(trilhos);
+          // for(var trilho of trilhos){
+          //      trilho.coordenadas = await PontoIntermedio.find({'id_trilho': });
+  
+  
+          // }
+          //   return Promise.all(trilho.coordenadas);   
+      }).then(function (listOfJobs) {
+          res.send(listOfJobs);
+      }).catch(function (error) {
+          res.status(500).send('one of the queries failed', error);
+      }); */
 
 
 
@@ -69,23 +69,24 @@ router.get("/", function (req, res) {
 
     //    }
     // });
-  
+
 
 
     // Get all campgrounds from DB
-        Trilho.find({}).populate({ path: 'canais', select:'-feeds' }).exec( function(err, allTrilhos){
-           if(err){
-               console.log(err);
-           } else {
-              res.json(allTrilhos);
-           }
-        });
+    Trilho.find({}).populate({ path: 'canais'
+    /*,populate:{path:'feeds'} */, select: '-feeds'  }).exec(function (err, allTrilhos) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(allTrilhos);
+        }
+    });
 });
 // SHOW - shows more info about one campground
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
-    Trilho.findById(req.params.id). populate({ path: 'canais',select: '-feeds' }).exec(function (err, foundTrilho) {
+    Trilho.findById(req.params.id).populate({ path: 'canais', select: '-feeds' }).exec(function (err, foundTrilho) {
         if (err) {
             console.log(err);
         } else {
@@ -132,8 +133,10 @@ function getTrilho(req) {
     var descricao = req.body.descricao;
     var featuredMedia = req.body.featured_media;
     var coordenadas = req.body.coordenadas
-    var trilho = { inicio: inicio, fim: fim, descricao: descricao, featured_media: featuredMedia,
-    coordenadas: coordenadas };
+    var trilho = {
+        inicio: inicio, fim: fim, descricao: descricao, featured_media: featuredMedia,
+        coordenadas: coordenadas
+    };
     return trilho;
 }
 
