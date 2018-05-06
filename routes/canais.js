@@ -27,8 +27,11 @@ router.get("/", function (req, res) {
 });
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Canal.findById(req.params.id).populate({ path: 'feeds', options: { limit: 2, sort: { 'created_at': -1 } 
-    } }).exec(function (err, foundChannel) {
+    Canal.findById(req.params.id).populate({
+        path: 'feeds', options: {
+            limit: 2, sort: { 'created_at': -1 }
+        }
+    }).exec(function (err, foundChannel) {
         if (err) {
             console.log(err);
         } else {
@@ -63,7 +66,7 @@ router.get("/:id", function (req, res) {
     } */
 
 
-router.post("/", function (req, res) {
+router.post("/", function (req, res,next) {
     // get data from form and add to campgrounds array
     var latitude = req.body.latitude;
     var longitude = req.body.longitude;
@@ -76,21 +79,26 @@ router.post("/", function (req, res) {
             //res.status(500).send("");
             next(err);
         } else {
-
-            Canal.create(newChannel, function (err, channel) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    //redirect back to campgrounds page
-                    console.log(channel);
-                    channel.save();
-                    trilho.canais.push(channel);
-                    trilho.save();
-                    res.json(channel);
-                }
-            });
+            if (!trilho) {
+                next(err);
+            }
+            else {
+                Canal.create(newChannel, function (err, channel) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //redirect back to campgrounds page
+                        console.log(channel);
+                        channel.save();
+                        trilho.canais.push(channel);
+                        trilho.save();
+                        res.json(channel);
+                    }
+                });
+            }
         }
     });
+
 });
 
 module.exports = router;
