@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Feed = require('../models/FeedModel'), Canal = require('../models/CanalModel');
+var VerifyToken = require('../middleware/VerifyToken');
 
 /* GET users listing. */
 router.get("/", function (req, res) {
@@ -13,7 +14,7 @@ router.get("/", function (req, res) {
         }
     });
 });
-router.post("/", function (req, res, next) {
+router.post("/",VerifyToken , function (req, res, next) {
     // get data from form and add to campgrounds array
 
     var newFeed = {

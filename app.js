@@ -9,7 +9,7 @@ var Feed = require('./models/FeedModel');
 
 var index = require('./routes/index');
 var users = require('./routes/users'), trilhos = require('./routes/trilhos'), canais = require('./routes/canais')
-,  feeds = require('./routes/feeds');;
+,  feeds = require('./routes/feeds'),  auth = require('./routes/auth');
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -34,6 +34,7 @@ app.use('/users', users);
 app.use('/canais', canais);
 app.use('/feeds', feeds);
 app.use('/trilhos',trilhos);
+app.use('/auth', auth);
 
 //var routes = require('./routes/pontosMonitorizados'); //importing route
 //routes(app); //register the route
