@@ -3,6 +3,7 @@ var mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 var trilhoSchema = new mongoose.Schema({
     descricao: String,
+    nome: String,
     inicio: {
         type: [Number],
         index: '2d'
