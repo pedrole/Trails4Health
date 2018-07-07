@@ -75,7 +75,8 @@ router.get("/", function (req, res) {
     // Get all campgrounds from DB
     Trilho.find({}).populate({ path: 'canais'
     ,populate:{path:'feeds' , options: {
-        limit: 2
+        limit: 2,
+        sort: { 'created_at': -1 }
 
     }}/* , select: '-feeds'*/  }).exec(function (err, allTrilhos) {
         if (err) {
