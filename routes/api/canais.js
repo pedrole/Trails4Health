@@ -12,7 +12,7 @@ module.exports = router; */
 
 var express = require('express');
 var router = express.Router();
-var Canal = require('../models/CanalModel'), Trilho = require('../models/trilho');;
+var Canal = require('../../models/CanalModel'), Trilho = require('../../models/trilho');;
 
 /* GET users listing. */
 router.get("/", function (req, res) {

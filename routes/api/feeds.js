@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Feed = require('../models/FeedModel'), Canal = require('../models/CanalModel');
-var VerifyToken = require('../middleware/VerifyToken');
+var Feed = require('../../models/FeedModel'), Canal = require('../../models/CanalModel');
+var VerifyToken = require('../../middleware/VerifyToken');
 
 /* GET users listing. */
 router.get("/", function (req, res) {

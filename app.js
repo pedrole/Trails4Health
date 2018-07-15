@@ -8,8 +8,8 @@ var bodyParser = require('body-parser'),  Trilho = require('./models/trilho'), C
 var Feed = require('./models/FeedModel');
 
 var index = require('./routes/index');
-var users = require('./routes/users'), trilhos = require('./routes/trilhos'), canais = require('./routes/canais')
-,  feeds = require('./routes/feeds'),  auth = require('./routes/auth');
+var users = require('./routes/api/users'), trilhos = require('./routes/api/trilhos'), canais = require('./routes/api/canais')
+,  feeds = require('./routes/api/feeds'),  auth = require('./routes/api/auth');
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -30,11 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/static', express.static(path.join(__dirname, 'public')))
-app.use('/users', users);
-app.use('/canais', canais);
-app.use('/feeds', feeds);
-app.use('/trilhos',trilhos);
-app.use('/auth', auth);
+app.use('/api/users', users);
+app.use('/api/canais', canais);
+app.use('/api/feeds', feeds);
+app.use('/api/trilhos',trilhos);
+app.use('/api/auth', auth);
 
 //var routes = require('./routes/pontosMonitorizados'); //importing route
 //routes(app); //register the route

@@ -2,18 +2,18 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-var VerifyToken = require('../middleware/VerifyToken');
+var VerifyToken = require('../../middleware/VerifyToken');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
-var User = require('../models/User');
+var User = require('../../models/User');
 
 /**
  * Configure JWT
  */
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var bcrypt = require('bcryptjs');
-var config = require('../config'); // get config file
+var config = require('../../config'); // get config file
 
 router.post('/login', function(req, res) {
 
