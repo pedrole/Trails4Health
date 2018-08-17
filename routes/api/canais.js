@@ -64,14 +64,24 @@ router.get("/:id", function (req, res) {
         }
      });
     } */
+    router.put("/:id", (req, res) =>{
+        var canal = getCanal(req);
+        Canal.findByIdAndUpdate(req.params.id, canal, function (err, updatedCanal) {
+            if (err) {
+                console.log(err);
+            } else {
+                //redirect somewhere(show page)
+                console.log(updatedCanal);
+                res.json(updatedCanal);
+            }
+        })
+    });
 
 
 router.post("/", function (req, res,next) {
     // get data from form and add to campgrounds array
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
-    var trilho = req.body.trilho;
-    var newChannel = { latitude: latitude, longitude: longitude, trilho: trilho }
+    
+    var newChannel = getCanal(req);
     // Create a new campground and save to DB
     Trilho.findById(newChannel.trilho, function (err, trilho) {
         if (err) {
@@ -100,5 +110,15 @@ router.post("/", function (req, res,next) {
     });
 
 });
+
+function getCanal(req){
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var trilho = req.body.trilho;
+    var hardware_id = req.body.hardware_id;
+    var newChannel = { latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id }
+    
+    return newChannel;
+}
 
 module.exports = router;

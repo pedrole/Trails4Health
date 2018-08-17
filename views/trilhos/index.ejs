@@ -1,29 +1,37 @@
-<% include ../partials/header %> 
+<% include ../partials/header %>
 
-     <header class="jumbotron">
-         <div class="container">
-             <h1><span class="glyphicon glyphicon-tent"></span> Bem vindo ao Trails4Health!</h1>
-             <p>Veja as condições meteorologicas na Serra da Estrela</p>
-             <p>
-                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Adicionar Novo Trilho</a>
-             </p>
-         </div>
-     </header>
-     
-     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% trilhos.forEach(function(trilhos){ %>
-            <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
-                   <img src="<%= trilho.featured_media %>">
-                   <div class="caption">
-                       <h4><%= trilho.nome %></h4>
-                   </div>
-                   <p>
-                       <a href="/trilhos/<%= trilho._id %>" class="btn btn-primary">More Info</a>
-                   </p>
+
+    <header class="jumbotron mt-3">
+        <div class="container">
+            <h1>
+                <span class="fas fa-route"></span> Bem-vindo ao Trails4Health!</h1>
+            <p>Veja os nossos trilhos na Serra da Estrela</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+            </p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row text-center" style="display:flex; flex-wrap: wrap; ">
+            <% trilhos.forEach(function(trilho){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                        <img src="<%= trilho.featured_media %>" class="img-responsive" style="width: 100%; height: 200px; object-fit: cover" >
+                        <div class="caption">
+                            <h4>
+                                <%= trilho.nome %>
+                            </h4>
+                        </div>
+                        <p>
+                            <a href="/trilhos/<%= trilho._id %>" class="btn btn-primary">Mais Informação</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        <% }); %>
+                <% }); %>
+        </div>
     </div>
 
-<% include ../partials/footer %>
+    <% include ../partials/footer %>
+        <!-- </div>
+  </body>
+  </html> -->

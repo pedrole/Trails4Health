@@ -10,6 +10,7 @@ var Feed = require('./models/FeedModel');
 var index = require('./routes/index');
 var users = require('./routes/api/users'), trilhos = require('./routes/api/trilhos'), canais = require('./routes/api/canais')
 ,  feeds = require('./routes/api/feeds'),  auth = require('./routes/api/auth');
+var trilhoRoutes = require("./routes/trilhos");
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -36,8 +37,16 @@ app.use('/api/feeds', feeds);
 app.use('/api/trilhos',trilhos);
 app.use('/api/auth', auth);
 
+
+
 //var routes = require('./routes/pontosMonitorizados'); //importing route
 //routes(app); //register the route
+/* app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+}); */
+
+app.use("/trilhos", trilhoRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -54,7 +63,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('partials/footer');
 });
 
 module.exports = app;

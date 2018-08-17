@@ -6,6 +6,7 @@ var VerifyToken = require('../../middleware/VerifyToken');
 /* GET users listing. */
 router.get("/", function (req, res) {
     // Get all campgrounds from DB
+   
     Feed.find({}, function (err, allFeeds) {
         if (err) {
             console.log(err);
@@ -16,12 +17,15 @@ router.get("/", function (req, res) {
 });
 router.post("/",VerifyToken , function (req, res, next) {
     // get data from form and add to campgrounds array
-
+    console.log(new Date());
+    console.log(req.body);
     var newFeed = {
         temperatura: req.body.temperatura, humidade: req.body.humidade,
-        canal: req.body.canal
+        canal: req.body.canal,
+        
     };
-    Canal.findById(newFeed.canal, function (err, canal) {
+
+    Canal.findOne({hardware_id: req.body.device}, (err,canal) =>{
         if (err) {
             console.log(err);
             //res.status(500).send("");
@@ -49,6 +53,36 @@ router.post("/",VerifyToken , function (req, res, next) {
             }
         }
     });
+    
+
+   /*  Canal.findById(newFeed.canal, function (err, canal) {
+        if (err) {
+            console.log(err);
+            //res.status(500).send("");
+            next(err);
+        } else {
+            if (!canal) {
+                next();
+            }
+            else {
+                Feed.create(newFeed, function (err, feed) {
+                    if (err) {
+                        console.log(err);
+                        res.send(err);
+                    } else {
+
+                        feed.save();
+                        canal.feeds.push(feed);
+                        canal.save();
+                        console.log(feed);
+                        res.json(feed);
+                        //    req.flash('success', 'Created a comment!');
+                        //   res.redirect('/campgrounds/' + Feed._id);
+                    }
+                });
+            }
+        }
+    }); */
 
 
     // Create a new Feed and save to DB
