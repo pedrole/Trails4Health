@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Feed = require('../../models/FeedModel'), Canal = require('../../models/CanalModel');
 var VerifyToken = require('../../middleware/VerifyToken');
+const INT16_t_MAX = 32767, UINT16_t_MAX = 65536;
 
 /* GET users listing. */
 router.get("/", function (req, res) {
@@ -20,12 +21,13 @@ router.post("/",VerifyToken , function (req, res, next) {
     console.log(new Date());
     console.log(req.body);
     var newFeed = {
-        temperatura: req.body.temperatura, humidade: req.body.humidade,
-        canal: req.body.canal,
-        
+        temperatura: req.body.temperatura / INT16_t_MAX * 120, 
+        humidade: req.body.humidade / UINT16_t_MAX * 110,
+        bateria: req.body.bateria / UINT16_t_MAX * 10,
+        canal: req.body.canal
     };
 
-    Canal.findOne({hardware_id: req.body.device}, (err,canal) =>{
+    Canal.findOne({hardware_id: req.body.hardware_id}, (err,canal) =>{
         if (err) {
             console.log(err);
             //res.status(500).send("");
