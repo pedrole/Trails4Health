@@ -12,6 +12,7 @@ module.exports = router; */
 
 var express = require('express');
 var router = express.Router();
+var VerifyToken = require('../../middleware/VerifyToken');
 var Canal = require('../../models/CanalModel'), Trilho = require('../../models/trilho');;
 
 /* GET users listing. */
@@ -78,7 +79,7 @@ router.get("/:id", function (req, res) {
     });
 
 
-router.post("/", function (req, res,next) {
+router.post("/", VerifyToken,function (req, res,next) {
     // get data from form and add to campgrounds array
     
     var newChannel = getCanal(req);
