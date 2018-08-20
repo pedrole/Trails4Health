@@ -5,8 +5,8 @@ var feedsSchema = new mongoose.Schema({
     humidade: Number,
     bateria: Number,
     created_at: { type: Date, default: Date.now },
-    canal: { type: mongoose.Schema.Types.ObjectId, ref:"Canal"},
-    hardware_id: {type: String, ref:"Canal"},
+    canal: { type: mongoose.Schema.Types.ObjectId, ref:"Canais"},
+    hardware_id: {type: String, ref:"Canais"},
     lastMessage: Number
 
     

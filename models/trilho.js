@@ -17,7 +17,7 @@ var trilhoSchema = new mongoose.Schema({
         canais: [
             {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "Canal"
+                    ref: "Canais"
             }
     ]
 });
