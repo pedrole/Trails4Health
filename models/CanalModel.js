@@ -24,5 +24,5 @@ var canalSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("Canal", canalSchema);
+module.exports = mongoose.model("Canais", canalSchema);
 
