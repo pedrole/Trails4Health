@@ -19,7 +19,11 @@ var canalSchema = new mongoose.Schema({
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "Feed"
                 }
-        ]
+        ],
+        tempoEspera:{type: Number, default: 15},
+        variacaoTemperatura:{type: Number, default: 0},
+        tempoMinimoContacto:{type: Number, default: 120}
+
 
 
 });
