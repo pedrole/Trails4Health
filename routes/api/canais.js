@@ -31,6 +31,7 @@ router.get("/", function (req, res, next) {
                 var tempoContacto = index.decimalToHex(canal.tempoMinimoContacto);
                 var variacao = index.decimalToHex(index.convertoFloatToUInt16(canal.variacaoTemperatura, 30));
                 var tempoEspera = index.decimalToHex(canal.tempoEspera);
+                var tempoConfig = index.decimalToHex(canal.tempoConfig);
 
                 /* var tempoMinimoContacto = index.decimalToHex(2.34,4);
  
@@ -40,7 +41,7 @@ router.get("/", function (req, res, next) {
 
                 res.json({
                     [hardware_id]:
-                    { "downlinkData": tempoContacto + variacao + tempoEspera + "00AA" }
+                    { "downlinkData": tempoContacto + variacao + tempoEspera + tempoConfig }
                 });
 
             } else
@@ -154,7 +155,7 @@ function getCanal(req) {
     var newChannel = {
         latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id,
         tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
-        tempoEspera: req.body.tempoEspera
+        tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig
     }
 
     return newChannel;

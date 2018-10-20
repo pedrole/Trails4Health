@@ -22,7 +22,8 @@ var canalSchema = new mongoose.Schema({
         ],
         tempoEspera:{type: Number, default: 15},
         variacaoTemperatura:{type: Number, default: 0},
-        tempoMinimoContacto:{type: Number, default: 120}
+        tempoMinimoContacto:{type: Number, default: 120},
+        tempoConfig:{type: Number, default: 360}
 
 
 
