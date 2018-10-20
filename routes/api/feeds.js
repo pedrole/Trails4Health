@@ -20,6 +20,14 @@ router.post("/",VerifyToken , function (req, res, next) {
     // get data from form and add to campgrounds array
     console.log(new Date());
     console.log(req.body);
+    
+    var hex = req.query.hex;
+    console.log("parametro: " + hex);
+    if(req.query.hex == true){
+        next();
+        return;
+    }
+
     var newFeed = {
         temperatura: req.body.temperatura / INT16_t_MAX * 120, 
         humidade: req.body.humidade / UINT16_t_MAX * 110,

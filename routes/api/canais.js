@@ -12,7 +12,7 @@ module.exports = router; */
 
 var express = require('express');
 var router = express.Router();
-var VerifyToken = require('../../middleware/VerifyToken'), index = require('../../middleware/index') ;
+var VerifyToken = require('../../middleware/VerifyToken'), index = require('../../middleware/index');
 var Canal = require('../../models/CanalModel'), Trilho = require('../../models/trilho');;
 
 /* GET users listing. */
@@ -22,27 +22,29 @@ router.get("/", function (req, res, next) {
 
     if (hardware_id && hex) {
         Canal.findOne({ hardware_id: hardware_id }, (err, canal) => {
-                if (err) {
+            if (err) {
                 console.log(err);
                 //res.status(500).send("");
                 next(err);
-            } else if(canal) {
+            } else if (canal) {
                 //var hexString =Number( 120).toString(16);
-var tempoContacto = index.decimalToHex(canal.tempoMinimoContacto);
-var variacao = index.decimalToHex(index.convertoFloatToUInt16(canal.variacaoTemperatura,30));
-var tempoEspera = index.decimalToHex(canal.tempoEspera);
+                var tempoContacto = index.decimalToHex(canal.tempoMinimoContacto);
+                var variacao = index.decimalToHex(index.convertoFloatToUInt16(canal.variacaoTemperatura, 30));
+                var tempoEspera = index.decimalToHex(canal.tempoEspera);
 
-               /* var tempoMinimoContacto = index.decimalToHex(2.34,4);
+                /* var tempoMinimoContacto = index.decimalToHex(2.34,4);
+ 
+                var value = index.convertoFloatToUInt16(2.3,30);
+ 
+                var valueFloat = value / 65536 * 30;*/
 
-               var value = index.convertoFloatToUInt16(2.3,30);
+                res.json({
+                    [hardware_id]:
+                    { "downlinkData": tempoContacto + variacao + tempoEspera + "00AA" }
+                });
 
-               var valueFloat = value / 65536 * 30;*/
-
-                res.json({ [hardware_id] :
-                    { "downlinkData": tempoContacto + variacao + tempoEspera + "00AA" } });
-                
-            }else
-                    next();
+            } else
+                next();
 
 
 
@@ -149,9 +151,11 @@ function getCanal(req) {
     var longitude = req.body.longitude;
     var trilho = req.body.trilho;
     var hardware_id = req.body.hardware_id;
-    var newChannel = { latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id,
-        tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura:  req.body.variacaoTemperatura,
-        tempoEspera: req.body.tempoEspera }
+    var newChannel = {
+        latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id,
+        tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
+        tempoEspera: req.body.tempoEspera
+    }
 
     return newChannel;
 }
