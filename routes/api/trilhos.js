@@ -94,15 +94,24 @@ router.get("/", function (req, res) {
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
-    Trilho.findById(req.params.id).populate({ path: 'canais', select: '-feeds' }).exec(function (err, foundTrilho) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(foundTrilho)
-            //render show template with that campground
-            res.json(foundTrilho);
+    Trilho.findById(req.params.id).populate({
+        path: 'canais', populate: {
+            path: 'feeds', options: {
+                limit: req.query.results || 2,
+                sort: { 'created_at': -1 }
+
+            }
         }
-    });
+        /*, select: '-feeds'*/
+}).exec(function (err, foundTrilho) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(foundTrilho)
+                //render show template with that campground
+                res.json(foundTrilho);
+            }
+        });
 });
 
 router.post("/", function (req, res) {

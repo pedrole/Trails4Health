@@ -19,12 +19,14 @@ module.exports = {
     },
      convertoFloatToUInt16 :function( value,  max, min = 0) {
         conversionFactor =  (UINT16_t_MAX) / (max - min);
-        return Math.trunc( (value * conversionFactor));
+        resultado = Math.trunc( (value * conversionFactor));
+        return resultado;
       },
 
       convertUInt16ToFloat :function(value, max){
 
-        return value / UINT16_t_MAX * max;
+        resultado = value / UINT16_t_MAX * max;
+        return resultado;
       }
 
       
