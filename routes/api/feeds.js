@@ -32,7 +32,7 @@ router.post("/",VerifyToken , function (req, res, next) {
         temperatura: req.body.temperatura / INT16_t_MAX * 120, 
         humidade: req.body.humidade / UINT16_t_MAX * 110,
         bateria: !req.body.bateria ? 0: req.body.bateria / UINT16_t_MAX * 10,
-        canal: req.body.canal
+        canal: req.body.canal, latitude: req.body.latitude, longitude: req.body.longitude
     };
 
     Canal.findOne({hardware_id: req.body.hardware_id}, (err,canal) =>{

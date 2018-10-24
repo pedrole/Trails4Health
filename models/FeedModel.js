@@ -7,7 +7,11 @@ var feedsSchema = new mongoose.Schema({
     created_at: { type: Date, default: Date.now },
     canal: { type: mongoose.Schema.Types.ObjectId, ref:"Canais"},
     hardware_id: {type: String, ref:"Canais"},
-    lastMessage: Number
+    lastMessage: Number,
+    latitude: {type: Number,
+      
+}, 
+longitude: {type: Number}
 
     
     
