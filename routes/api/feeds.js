@@ -45,6 +45,7 @@ router.post("/",VerifyToken , function (req, res, next) {
                 next();
             }
             else {
+                newFeed.canal = canal.id
                 Feed.create(newFeed, function (err, feed) {
                     if (err) {
                         console.log(err);

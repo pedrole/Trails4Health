@@ -12,7 +12,7 @@ var canalSchema = new mongoose.Schema({
                 ref: "Trilho"
 
         },
-        hardware_id:{ type: String, index: true, unique: true, required: true },
+        hardware_id:{ type: String, index: true, unique: true/* , required: true */ },
 
         feeds: [
                 {
