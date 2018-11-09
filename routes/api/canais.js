@@ -102,7 +102,7 @@ router.get("/:id", function (req, res) {
     } */
 router.put("/:id", (req, res) => {
     var canal = getCanal(req);
-    Canal.findByIdAndUpdate(req.params.id, canal, function (err, updatedCanal) {
+    Canal.findByIdAndUpdate(req.params.id, /* canal */{$set: canal}, {new:true},function (err, updatedCanal) {
         if (err) {
             console.log(err);
         } else {
@@ -155,7 +155,7 @@ function getCanal(req) {
     var newChannel = {
         latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id,
         tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
-        tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig
+        tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig, nome: req.body.nome
     }
 
     return newChannel;
