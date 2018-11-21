@@ -153,10 +153,13 @@ function getCanal(req) {
     var trilho = req.body.trilho;
     var hardware_id = req.body.hardware_id;
     var newChannel = {
-        latitude: latitude, longitude: longitude, trilho: trilho, hardware_id: hardware_id,
+        latitude: latitude, longitude: longitude, trilho: trilho,
         tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
         tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig, nome: req.body.nome
     }
+    if(hardware_id)
+        newChannel['hardware_id'] = hardware_id;
+
 
     return newChannel;
 }

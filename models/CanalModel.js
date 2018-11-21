@@ -13,7 +13,7 @@ var canalSchema = new mongoose.Schema({
 
         },
         nome: String,
-        hardware_id:{ type: String, index: true, unique: true/* , required: true */ },
+        hardware_id:{ type: String, index: true, unique: true/* , required: true */, trim:true, sparse:true },
 
         feeds: [
                 {
