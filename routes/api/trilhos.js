@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Trilho = require('../../models/trilho');
-var ObjectId = require('mongoose').Types.ObjectId;
+var ObjectId = require('mongoose').Types.ObjectId, flatMap = require('array.prototype.flatmap');
 
 /* GET users listing. */
 router.get("/", function (req, res) {
@@ -94,6 +94,8 @@ router.get("/", function (req, res) {
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
+    var start =  req.query.start || 0, end = req.query.end || Number.MAX_VALUE;
+
     Trilho.findById(req.params.id).populate({
         path: 'canais', populate: {
             path: 'feeds', options: {
@@ -103,15 +105,37 @@ router.get("/:id", function (req, res) {
             }
         }
         /*, select: '-feeds'*/
-}).exec(function (err, foundTrilho) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(foundTrilho)
-                //render show template with that campground
-                res.json(foundTrilho);
-            }
-        });
+    }).exec(function (err, foundTrilho) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(foundTrilho)
+            var canais = foundTrilho.canais
+            var canal = canais[0]
+            //var   feeds = canais.flatMap(c => c.feeds);
+            var feeds = flatMap(canais, c => c.feeds);
+
+            foundTrilho.canais.forEach(canal => {
+                canal.feeds = canal.feeds.filter((feed) =>
+                    feed.created_at.getTime() >= start && feed.created_at.getTime() <= end
+                );
+
+                /*canal.feeds.forEach(feed => {
+                    console.log(feed)
+                });*/
+            });
+
+
+
+            feeds = feeds.filter((feed) =>
+                feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
+            );
+
+
+            //render show template with that campground
+            res.json(foundTrilho);
+        }
+    });
 });
 
 router.post("/", function (req, res) {

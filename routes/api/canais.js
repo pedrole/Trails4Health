@@ -41,7 +41,7 @@ router.get("/", function (req, res, next) {
 
                 res.json({
                     [hardware_id]:
-                    { "downlinkData": tempoContacto + variacao + tempoEspera + tempoConfig }
+                        { "downlinkData": tempoContacto + variacao + tempoEspera + tempoConfig }
                 });
 
             } else
@@ -102,15 +102,29 @@ router.get("/:id", function (req, res) {
     } */
 router.put("/:id", (req, res) => {
     var canal = getCanal(req);
-    Canal.findByIdAndUpdate(req.params.id, /* canal */{$set: canal}, {new:true},function (err, updatedCanal) {
-        if (err) {
+    Canal.findByIdAndUpdate(req.params.id,  /*canal */{ $set: canal }
+       , { new: true }, function (err, updatedCanal) {
+            if (err) {
+                console.log(err);
+            } else {
+                //redirect somewhere(show page)
+                console.log(updatedCanal);
+                res.json(updatedCanal);
+            }
+        })
+
+  /*  Canal.findById(req.params.id,'-feeds', (err, channel) => {
+        if (err)
             console.log(err);
-        } else {
-            //redirect somewhere(show page)
-            console.log(updatedCanal);
-            res.json(updatedCanal);
+        else{
+            canal['_id'] = channel._id
+            canal.save();
         }
-    })
+
+
+    })*/
+
+
 });
 
 
@@ -157,9 +171,10 @@ function getCanal(req) {
         tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
         tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig, nome: req.body.nome
     }
-    if(hardware_id)
+    if (hardware_id)
         newChannel['hardware_id'] = hardware_id;
-
+    else
+        newChannel['hardware_id'] = undefined;
 
     return newChannel;
 }

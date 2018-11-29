@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var canalSchema = new mongoose.Schema({
         latitude: {
                 type: Number,
-              
-        }, 
-        longitude: {type: Number},
+
+        },
+        longitude: { type: Number },
         trilho: {
 
                 type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +13,10 @@ var canalSchema = new mongoose.Schema({
 
         },
         nome: String,
-        hardware_id:{ type: String, index: true, unique: true/* , required: true */, trim:true, sparse:true },
+        hardware_id: {
+                type: String/*, index: true, unique: true , required: true, sparse:true  */, trim: true
+                , index: { unique: true, partialFilterExpression: { hardware_id: { $type: 'string' } } }
+        },
 
         feeds: [
                 {
@@ -21,10 +24,10 @@ var canalSchema = new mongoose.Schema({
                         ref: "Feed"
                 }
         ],
-        tempoEspera:{type: Number, default: 15},
-        variacaoTemperatura:{type: Number, default: 0},
-        tempoMinimoContacto:{type: Number, default: 120},
-        tempoConfig:{type: Number, default: 360}
+        tempoEspera: { type: Number, default: 15 },
+        variacaoTemperatura: { type: Number, default: 0 },
+        tempoMinimoContacto: { type: Number, default: 120 },
+        tempoConfig: { type: Number, default: 360 }
 
 
 
