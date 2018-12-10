@@ -94,15 +94,16 @@ router.get("/", function (req, res) {
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
-    var start =  req.query.start || 0, end = req.query.end || Number.MAX_VALUE;
+    var start =  Number( req.query.start) || 0, end = Number( req.query.end) || 99999999999999;
+    date = new Date(start)
 
     Trilho.findById(req.params.id).populate({
         path: 'canais', populate: {
             path: 'feeds', options: {
                 limit: req.query.results || 2,
                 sort: { 'created_at': -1 }
-
-            }
+            }, 
+            match: { created_at: { "$gte": date, "$lte": new Date(end)}}
         }
         /*, select: '-feeds'*/
     }).exec(function (err, foundTrilho) {
@@ -110,6 +111,9 @@ router.get("/:id", function (req, res) {
             console.log(err);
         } else {
             console.log(foundTrilho)
+
+         
+            if(1>2){
             var canais = foundTrilho.canais
             var canal = canais[0]
             //var   feeds = canais.flatMap(c => c.feeds);
@@ -130,6 +134,7 @@ router.get("/:id", function (req, res) {
             feeds = feeds.filter((feed) =>
                 feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
             );
+        }
 
 
             //render show template with that campground
