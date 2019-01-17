@@ -89,10 +89,9 @@ router.get('/setup', function (req, res) {
   User.create(user,function (err, user) {
       if (err) return res.status(500).send("Houve um problema a registar o utilizador`.");
 
-      // if user is registered without errors
-      // create a token
+      //se o utilizador foi criado sem erros é devolvido o otekn
       var token = jwt.sign({ id: user._id }, config.secret, {
-        // expiresIn: 86400 // expires in 24 hours
+      
       });
       user.token = token;
       user.save();
