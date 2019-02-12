@@ -107,6 +107,10 @@ router.get("/:id", function (req, res) {
         }
         /*, select: '-feeds'*/
     }).exec(function (err, foundTrilho) {
+            
+
+
+
         if (err) {
             console.log(err);
         } else {

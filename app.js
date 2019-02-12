@@ -15,6 +15,7 @@ var trilhoRoutes = require("./routes/trilhos");
 var app = express();
 mongoose.Promise = global.Promise;
 //var url =  process.env.DATABASEURL || "mongodb://localhost/Trails4Health"
+//var url =  process.env.DATABASEURL || "mongodb://sa:user@ds159509.mlab.com:59509/trails4health"
 var url =  process.env.DATABASEURL || "mongodb://sa:user@ds115740.mlab.com:15740/trails4health_dev"
 mongoose.connect(url); 
 
