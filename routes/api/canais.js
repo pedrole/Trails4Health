@@ -136,11 +136,12 @@ router.post("/", VerifyToken, function (req, res, next) {
     Trilho.findById(newChannel.trilho, function (err, trilho) {
         if (err) {
             console.log(err);
-            //res.status(500).send("");
-            next(err);
+           return res.status(500).send(err);
+            
         } else {
             if (!trilho) {
-                next(err);
+                console.log(err);
+                return res.status(500).json( {message: "trilho não encontrado."});
             }
             else {
                 Canal.create(newChannel, function (err, channel) {
@@ -166,8 +167,9 @@ function getCanal(req) {
     var longitude = req.body.longitude;
     var trilho = req.body.trilho;
     var hardware_id = req.body.hardware_id;
+    var utilizador = req.userId;
     var newChannel = {
-        latitude: latitude, longitude: longitude, trilho: trilho,
+        latitude: latitude, longitude: longitude, trilho: trilho, utilizador: utilizador,
         tempoMinimoContacto: req.body.tempoMinimoContacto, variacaoTemperatura: req.body.variacaoTemperatura,
         tempoEspera: req.body.tempoEspera, tempoConfig: req.body.tempoConfig, nome: req.body.nome
     }

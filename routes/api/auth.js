@@ -98,7 +98,6 @@ router.get('/setup', function (req, res) {
 
       res.status(200).send({ auth: true, token: token });
     });
-
 });
 
 function createUser(username, password) {

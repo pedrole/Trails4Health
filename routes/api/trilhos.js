@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Trilho = require('../../models/trilho');
+var Trilho = require('../../models/trilho'), VerifyToken = require('../../middleware/VerifyToken');
 var ObjectId = require('mongoose').Types.ObjectId, flatMap = require('array.prototype.flatmap');
 
 /* GET users listing. */
@@ -94,7 +94,7 @@ router.get("/", function (req, res) {
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
-    var start =  Number( req.query.start) || 0, end = Number( req.query.end) || 99999999999999;
+    var start = Number(req.query.start) || 0, end = Number(req.query.end) || 99999999999999;
     date = new Date(start)
 
     Trilho.findById(req.params.id).populate({
@@ -102,12 +102,12 @@ router.get("/:id", function (req, res) {
             path: 'feeds', options: {
                 limit: req.query.results || 2,
                 sort: { 'created_at': -1 }
-            }, 
-            match: { created_at: { "$gte": date, "$lte": new Date(end)}}
+            },
+            match: { created_at: { "$gte": date, "$lte": new Date(end) } }
         }
         /*, select: '-feeds'*/
     }).exec(function (err, foundTrilho) {
-            
+
 
 
 
@@ -116,29 +116,29 @@ router.get("/:id", function (req, res) {
         } else {
             console.log(foundTrilho)
 
-         
-            if(1>2){
-            var canais = foundTrilho.canais
-            var canal = canais[0]
-            //var   feeds = canais.flatMap(c => c.feeds);
-            var feeds = flatMap(canais, c => c.feeds);
 
-            foundTrilho.canais.forEach(canal => {
-                canal.feeds = canal.feeds.filter((feed) =>
-                    feed.created_at.getTime() >= start && feed.created_at.getTime() <= end
+            if (1 > 2) {
+                var canais = foundTrilho.canais
+                var canal = canais[0]
+                //var   feeds = canais.flatMap(c => c.feeds);
+                var feeds = flatMap(canais, c => c.feeds);
+
+                foundTrilho.canais.forEach(canal => {
+                    canal.feeds = canal.feeds.filter((feed) =>
+                        feed.created_at.getTime() >= start && feed.created_at.getTime() <= end
+                    );
+
+                    /*canal.feeds.forEach(feed => {
+                        console.log(feed)
+                    });*/
+                });
+
+
+
+                feeds = feeds.filter((feed) =>
+                    feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
                 );
-
-                /*canal.feeds.forEach(feed => {
-                    console.log(feed)
-                });*/
-            });
-
-
-
-            feeds = feeds.filter((feed) =>
-                feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
-            );
-        }
+            }
 
 
             //render show template with that campground
@@ -147,7 +147,7 @@ router.get("/:id", function (req, res) {
     });
 });
 
-router.post("/", function (req, res) {
+router.post("/", VerifyToken, function (req, res, next) {
     // get data from form and add to campgrounds array
 
     var newTrilho = getTrilho(req);
@@ -156,12 +156,14 @@ router.post("/", function (req, res) {
     Trilho.create(newTrilho, function (err, trilho) {
         if (err) {
             console.log(err);
+            return res.status(500).send(err);
         } else {
             //redirect back to campgrounds page
             console.log(trilho);
             res.json(trilho);
         }
     });
+   
 });
 router.put("/:id", function (req, res) {
     // find and update the correct campground
@@ -182,10 +184,11 @@ function getTrilho(req) {
     var fim = req.body.fim;
     var descricao = req.body.descricao;
     var featuredMedia = req.body.featured_media;
-    var coordenadas = req.body.coordenadas
+    var coordenadas = req.body.coordenadas;
+    var utilizador = req.userId;
     var trilho = {
         inicio: inicio, fim: fim, descricao: descricao, featured_media: featuredMedia,
-        coordenadas: coordenadas
+        coordenadas: coordenadas, utilizador: utilizador
     };
     return trilho;
 }

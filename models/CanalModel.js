@@ -13,6 +13,12 @@ var canalSchema = new mongoose.Schema({
 
         },
         nome: String,
+        utilizador: {
+           
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "User"
+              
+        },
         hardware_id: {
                 type: String/*, index: true, unique: true , required: true, sparse:true  */, trim: true
                 , index: { unique: true, partialFilterExpression: { hardware_id: { $type: 'string' } } }

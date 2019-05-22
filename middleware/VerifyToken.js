@@ -2,8 +2,6 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('../config'); // get our config file
 
 function verifyToken(req, res, next) {
-
-  
  // verifica token nos parametros de consulta ou no cabeçalho 
   var token = req.query.token || req.headers['x-access-token']; 
   if (!token) 
@@ -17,7 +15,6 @@ function verifyToken(req, res, next) {
     req.userId = decoded.id;
     next();
   });
-
 }
 
 module.exports = verifyToken;

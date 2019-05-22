@@ -12,6 +12,13 @@ var trilhoSchema = new mongoose.Schema({
         type: [Number],
         index: '2d'
     },
+    utilizador: {
+   
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+      
+    },
+
     coordenadas: String,
         featured_media: String,
         canais: [
