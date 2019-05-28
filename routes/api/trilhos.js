@@ -107,10 +107,6 @@ router.get("/:id", function (req, res) {
         }
         /*, select: '-feeds'*/
     }).exec(function (err, foundTrilho) {
-
-
-
-
         if (err) {
             console.log(err);
         } else {
@@ -139,6 +135,18 @@ router.get("/:id", function (req, res) {
                     feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
                 );
             }
+            if(req.query.timescale){
+                foundTrilho.canais.forEach((canal, indice) => {
+                });
+
+
+                for (const canal of trilhos.canais) {
+                    canal.feeds.forEach( element => {
+                
+                    });
+                }
+
+            }
 
 
             //render show template with that campground
@@ -146,6 +154,11 @@ router.get("/:id", function (req, res) {
         }
     });
 });
+
+function getMinutesBetweenDates(startDate, endDate) {
+    var diff = endDate.getTime() - startDate.getTime();
+    return (diff / 60000);
+}
 
 router.post("/", VerifyToken, function (req, res, next) {
     // get data from form and add to campgrounds array
