@@ -91,13 +91,15 @@ router.get("/", function (req, res) {
     });
 });
 // SHOW - shows more info about one campground
+
 router.get("/:id", function (req, res) {
+   
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
     var start = Number(req.query.start) || 0, end = Number(req.query.end) || 99999999999999;
     date = new Date(start)
 
-    Trilho.findById(req.params.id).populate({
+    Trilho.findById(req.params.id).lean().populate({
         path: 'canais', populate: {
             path: 'feeds', options: {
                 limit: req.query.results || 2,
@@ -110,46 +112,21 @@ router.get("/:id", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundTrilho)
-
-
-            if (1 > 2) {
-                var canais = foundTrilho.canais
-                var canal = canais[0]
-                //var   feeds = canais.flatMap(c => c.feeds);
-                var feeds = flatMap(canais, c => c.feeds);
-
-                foundTrilho.canais.forEach(canal => {
-                    canal.feeds = canal.feeds.filter((feed) =>
-                        feed.created_at.getTime() >= start && feed.created_at.getTime() <= end
-                    );
-
-                    /*canal.feeds.forEach(feed => {
-                        console.log(feed)
-                    });*/
-                });
-
-
-
-                feeds = feeds.filter((feed) =>
-                    feed.created_at.getTime() >= new Date(new Date("2018-11-08T15:40:41")) /*&& item.date.getTime() <= toDate.getTime()*/
-                );
-            }
-            if(req.query.timescale){
-                foundTrilho.canais.forEach((canal, indice) => {
-                });
-
-
-                for (const canal of trilhos.canais) {
-                    canal.feeds.forEach( element => {
-                
+            if (req.query.timescale) {
+                for (const canal of foundTrilho.canais) {
+                    let feeds = [];
+                    canal.feeds.forEach((element, indice) => {
+                        if (indice == 0 || getMinutesBetweenDates(new Date(element.created_at), new Date(feeds[feeds.length - 1].created_at)) >= req.query.timescale) {
+                            feeds.push(element)
+                        }
                     });
+                    canal.feedsCount = feeds.length;
+                    canal.feeds = feeds
                 }
-
             }
-
-
             //render show template with that campground
+          
+            
             res.json(foundTrilho);
         }
     });
@@ -176,7 +153,7 @@ router.post("/", VerifyToken, function (req, res, next) {
             res.json(trilho);
         }
     });
-   
+
 });
 router.put("/:id", function (req, res) {
     // find and update the correct campground

@@ -13,15 +13,23 @@ var resultado = a.filter(function (element, index, result) {
     else return false;
 })
 console.log('resultado: ' + resultado);
+console.log('resultado: ' + a);
 
 var a = [1, 1, 2, 3, 4, 8, 9, 9];
 var resultado = []
 a.forEach((element, indice) => {
     console.log(resultado[indice - 1])
     if (indice == 0) resultado.push(element)
-   else if (((element - resultado[resultado.length - 1]) > 2))
+    else if (((element - resultado[resultado.length - 1]) > 2))
         resultado.push(element)
 });
+
+
+
+
+console.log(resultado);
+
+console.log(trilho.canais[0]);
 
 
 var trilho = {
@@ -70,13 +78,23 @@ var trilho = {
         }
     ]
 }
-
+timescale = 15;
 for (const canal of trilho.canais) {
-        canal.feeds.forEach( (element, indice) => {
-                
-        });
+    let feeds = [];
+    canal.feeds.forEach((element, indice) => {
+        if (indice == 0 || getMinutesBetweenDates(new Date(element.created_at), new Date(feeds[feeds.length - 1].created_at)) >= timescale) {
+            feeds.push(element)
+        }
+    });
+    canal.feeds = feeds
 }
-
+function getMinutesBetweenDates(startDate, endDate) {
+    console.log(startDate);
+    var diff = endDate.getTime() - startDate.getTime();
+    const newLocal = (diff / 60000);
+    console.log(newLocal)
+    return newLocal;
+}
 console.log(trilho.canais[0]);
 
 
