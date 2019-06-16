@@ -17,31 +17,21 @@ var config = require('../../config'); // get config file
 
 router.post('/login', function (req, res) {
 
-  User.findOne({ email: req.body.email }, function (err, user) {
-    if (err) return res.status(500).send('Error on the server.');
-    if (!user) return res.status(404).send('No user found.');
+  User.findOne({ username: req.body.username }, function (err, user) {
+    if (err) return res.status(500).send('Erro no servidor.');
+    if (!user) return res.status(404).send('Utilizador não encontrado.');
 
-    // check if the password is valid
+    // Verifica se palavra passe é válida
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
-    // if user is found and password is valid
-    // create a token
-
-
-    var token;
-    if (!user.token) {
-
-      token = jwt.sign({ id: user._id }, config.secret, {
-        //  expiresIn: 86400 // expires in 24 hours
-      });
-    } else
-      token = user.token
-
-    // return the information including token as JSON
+    // Se utilizador encontrado um token é criado
+    var token = jwt.sign({ id: user._id }, config.secret, {
+      //  expiresIn: 86400 // expira em 24 horas
+    });
+    // devolve o token de autenticação e a chave para adicionar registos meteorológicos
     res.status(200).send({ auth: true, token: token });
   });
-
 });
 
 router.get('/logout', function (req, res) {
@@ -62,10 +52,10 @@ router.post('/register', function (req, res) {
 
       // if user is registered without errors
       // create a token
-      var token = jwt.sign({ id: user._id }, config.secret, {
+      var feeds_api_key = jwt.sign({ id: user._id }, config.secret, {
         // expiresIn: 86400 // expires in 24 hours
       });
-      user.token = token;
+      user.feeds_api_key = feeds_api_key;
       user.save();
 
       res.status(200).send({ auth: true, token: token });
@@ -86,18 +76,18 @@ router.get('/me', VerifyToken, function (req, res, next) {
 router.get('/setup', function (req, res) {
   var user = createUser('sa', 'user');
 
-  User.create(user,function (err, user) {
-      if (err) return res.status(500).send("Houve um problema a registar o utilizador`.");
+  User.create(user, function (err, user) {
+    if (err) return res.status(500).send("Houve um problema a registar o utilizador`.");
 
-      //se o utilizador foi criado sem erros é devolvido o otekn
-      var token = jwt.sign({ id: user._id }, config.secret, {
-      
-      });
-      user.token = token;
-      user.save();
+    //se o utilizador foi criado sem erros é gerada a chave para adicionar registos meteorológicos 
+    var feeds_api_key = jwt.sign({ id: user._id }, config.secret_feeds, {
 
-      res.status(200).send({ auth: true, token: token });
     });
+    user.feeds_api_key = feeds_api_key;
+    user.save(); //chave para adicionar registos meteorológicos é armazenada na base de dados
+
+    res.status(200).send({ auth: true });
+  });
 });
 
 function createUser(username, password) {

@@ -2,8 +2,8 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('../config'); // get our config file
 
 function verifyToken(req, res, next) {
- // verifica token nos parametros de consulta ou no cabeçalho 
-  var token = req.query.token || req.headers['x-access-token']; 
+ // verifica token nos parametros de consulta ou no corpo da mensagem 
+  var token = req.body.token || req.headers['x-access-token']; 
   if (!token) 
     return res.status(403).send({ auth: false, message: 'Sem token fornecido.' });
 

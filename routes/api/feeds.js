@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Feed = require('../../models/FeedModel'), Canal = require('../../models/CanalModel');
-var VerifyToken = require('../../middleware/VerifyToken');
+var VerifyToken = require('../../middleware/VerifyToken') , index = require('../../middleware/index');
 const INT16_t_MAX = 32767, UINT16_t_MAX = 65536;
 
 /* GET users listing. */
@@ -16,7 +16,7 @@ router.get("/", function (req, res) {
         }
     });
 });
-router.post("/",VerifyToken , function (req, res, next) {
+router.post("/",index.VerifyFeedsKey , function (req, res, next) {
     // get data from form and add to campgrounds array
     console.log(new Date());
     console.log(req.body);

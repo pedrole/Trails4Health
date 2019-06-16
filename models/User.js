@@ -4,7 +4,7 @@ var canalSchema = new mongoose.Schema({
         username: { type: String, unique: true} ,
         password: String,  
         admin: Boolean,
-        token: String     
+        feeds_api_key: String     
 
 });
 
