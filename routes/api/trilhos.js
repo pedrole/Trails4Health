@@ -111,6 +111,7 @@ router.get("/:id", function (req, res) {
     }).exec(function (err, foundTrilho) {
         if (err) {
             console.log(err);
+            if (err) return res.status(500).send("Houve um pro.");
         } else {
             if (req.query.timescale) {
                 for (const canal of foundTrilho.canais) {
