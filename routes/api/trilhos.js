@@ -96,13 +96,16 @@ router.get("/:id", function (req, res) {
    
     //find the campground with provided ID
     //populate({ path: 'feeds', options: { limit: 2 } })
+    const timeScale = req.query.timescale;
     var start = Number(req.query.start) || 0, end = Number(req.query.end) || 99999999999999;
     date = new Date(start)
+
+    
 
     Trilho.findById(req.params.id).lean().populate({
         path: 'canais', populate: {
             path: 'feeds', options: {
-                limit: req.query.results || 2,
+                 limit: timeScale ? 8000 : req.query.results || 2,
                 sort: { 'created_at': -1 }
             },
             match: { created_at: { "$gte": date, "$lte": new Date(end) } }
@@ -113,11 +116,12 @@ router.get("/:id", function (req, res) {
             console.log(err);
             if (err) return res.status(500).send("Houve um pro.");
         } else {
-            if (req.query.timescale) {
+           
+            if (timeScale) {
                 for (const canal of foundTrilho.canais) {
                     let feeds = [];
                     canal.feeds.forEach((element, indice) => {
-                        if (indice == 0 || getMinutesBetweenDates(new Date(element.created_at), new Date(feeds[feeds.length - 1].created_at)) >= req.query.timescale) {
+                        if (indice == 0 || getMinutesBetweenDates(new Date(element.created_at), new Date(feeds[feeds.length - 1].created_at)) >= timeScale) {
                             feeds.push(element)
                         }
                     });
