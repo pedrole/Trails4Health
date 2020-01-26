@@ -73,7 +73,7 @@ router.get("/", function (req, res) {
 
     var query = Trilho.find({});
     const populate = req.query.populate;
-    if (populate)
+    if (!populate || populate==1)
     query = query.populate({
         path: 'canais'
         , populate: {
